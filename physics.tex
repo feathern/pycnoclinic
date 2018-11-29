@@ -10,10 +10,17 @@ In this section, we present the equation sets solved when running in each of the
 
 When run in dimensional, anelastic mode, \textbf{reference\_type=2} must be specified in the Reference\_Namelist.  In that case, Rayleigh solves the following form of the MHD equations:
 
+\begin{align*}
+\rho\frac{ \partial \boldsymbol{v} }{\partial t}  &=    -\boldsymbol{\nabla}P  % pressure
+						        - \frac{\rho}{2}\boldsymbol{\nabla}\langle v_1^2\rangle
+							- \langle v_1^2\rangle\boldsymbol{\nabla}\rho
+							+ f(r,t) \\
+f(r,t) &= \frac{\boldsymbol{\nabla}\langle P_1^2 \rangle}{2\rho c^2}+\frac{\partial}{\partial t}\left\langle \frac{P_1\boldsymbol{v_1}}{c^2} -\rho_1 \boldsymbol{v_1} \right\rangle
+\end{align*}
 
 
 \begin{align*}
-\hat{\rho}(r)\left[\frac{\partial \boldsymbol{v}}{\partial t} +\boldsymbol{v}\cdot\boldsymbol{\nabla}\boldsymbol{v}  %advection
+\rho\left[\frac{\partial \boldsymbol{v}}{\partial t} +\boldsymbol{v}\cdot\boldsymbol{\nabla}\boldsymbol{v}  %advection
                                                          +2\Omega_0\boldsymbol{\hat{z}}\times\boldsymbol{v} \right]  &= % Coriolis
                                                          \frac{\hat{\rho}(r)}{c_P}g(r)\Theta\,\boldsymbol{\hat{r}} % buoyancy
                                                          +\hat{\rho}(r)\boldsymbol{\nabla}\left(\frac{P}{\hat{\rho}(r)}\right) % pressure
