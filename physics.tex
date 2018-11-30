@@ -115,17 +115,38 @@ where
 \begin{equation}
 v_0^2 \equiv \mathrm{max}\left\langle v_1^2 \right\rangle.
 \end{equation}
-Nondimensionalizing by multiplying by $\frac{L^3}{\nu}$ yields
+We choose $\tilde{P}$ and $\tilde{T}$ as our pressure and temperature scales respectively and
+nondimensionalize by multiplying by $\frac{L^3}{\nu}$.  This yields
 \begin{equation}
 \frac{ \partial \vvec }{\partial t}   =  - \vvec\cdot\boldsymbol{\nabla}\vvec
 \,-\, \frac{2}{E}{\hat{z}}\times\vvec  
 -\frac{L^3}{\nu^2}\boldsymbol{\nabla}P'  % pressure
-						        + \alpha T' \boldsymbol{g}
-							+\alpha \langle v_1^2\rangle\boldsymbol{\nabla} T'
-+ \nu\boldsymbol{\nabla}^2\vvec,
+						        + \frac{\mathrm{Ra}}{\mathrm{Pr}} T' \boldsymbol{\tilde{g}}
+							+2\frac{\mathrm{Ra}}{\mathrm{Pr}}\langle v_1^2\rangle\boldsymbol{\nabla} T'
++ \boldsymbol{\nabla}^2\vvec.
 \end{equation}
-
-
+{\bf P is still al ittle odd -- I get 1/E2}.
+The Rayleigh number Ra is given by
+\begin{equation}
+\mathrm{Ra} = \frac{\alpha g_0 \tilde{T} L^3}{\nu\kappa},
+\end{equation}
+the Ekman number E by
+\begin{equation}
+\mathrm{E} = \frac{\nu}{\Omega L^2},
+\end{equation}
+and Prandtl number Pr by
+\begin{equation}
+\mathrm{Pr} = \frac{\nu}{\kappa}.
+\end{equation}
+Finally, the nondimensional gravitational accelation vector is given by
+\begin{equation}
+\boldsymbol{\tilde{g}} = \frac{\partial}{\partial r}\langle v_1^2\rangle\rhat + \mathrm{Fr}\, r\boldsymbol\shat,
+\end{equation}
+where Fr a Froud number.  In this case, it expresses the relative important of centrifugal buoyancy to pycnoclinic buoyancy, and is given by
+\begin{equation}
+\mathrm{Fr} = \frac{2\Omega^2 L^2}{v_0^2}.
+\end{equation} 
+In this experiment, $L \approx 0.03$ m, $\Omega \approx 314 \,\,\mathrm{ s}^{-1}$, and $v_0 \approx 20 \,\,\mathrm{m}\,\,\mathrm{s}^{-1}$.  This yields Fr=0.443.  Centrifugal buoyancy is thus likely important for the dynamics at this rotation rate.
 \clearpage
 
 %%%%%%%%%%%%%%%%%%%% END
