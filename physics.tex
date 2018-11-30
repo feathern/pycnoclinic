@@ -1,23 +1,25 @@
 \clearpage
+\newcommand{\rhobar}{\rho}
 \section{Physics Controls}\label{sec:physics}
-Rayleigh solves the MHD equations in spherical geometry under the Boussinesq and anelastic approximations.  Both the equations that Rayleigh solves and its diagnostics can be formulated either dimensionally or nondimensionally.  A nondimensional Boussinesq formulation, as well as dimensional and non-dimensional anelastic formulations (based on a polytropic reference state) are provided as part of Rayleigh.
+Words
 
-In this section, we present the equation sets solved when running in each of these three modes, and discuss the relevant control parameters for each mode.   We also discuss the boundary conditions available in Rayleigh and those namelist variables that can be used to modify the code's behavior in any of these three modes.
+\subsection{PAF Equations)}
 
-\subsection{Anelastic Mode (dimensional)}
-
-\textbf{Example Input:  Rayleigh/etc/input\_examples/main\_input\_sun}
-
-When run in dimensional, anelastic mode, \textbf{reference\_type=2} must be specified in the Reference\_Namelist.  In that case, Rayleigh solves the following form of the MHD equations:
+The momentum equation as per Koulakis et al. (2018).
 
 \begin{align*}
-\rho\frac{ \partial \boldsymbol{v} }{\partial t}  &=    -\boldsymbol{\nabla}P  % pressure
-						        - \frac{\rho}{2}\boldsymbol{\nabla}\langle v_1^2\rangle
-							- \langle v_1^2\rangle\boldsymbol{\nabla}\rho
+\rhobar\frac{ \partial \boldsymbol{v} }{\partial t}  &=    -\boldsymbol{\nabla}P  % pressure
+						        - \frac{\rhobar}{2}\boldsymbol{\nabla}\langle v_1^2\rangle
+							- \langle v_1^2\rangle\boldsymbol{\nabla}\rhobar
 							+ f(r,t) \\
-f(r,t) &= \frac{\boldsymbol{\nabla}\langle P_1^2 \rangle}{2\rho c^2}+\frac{\partial}{\partial t}\left\langle \frac{P_1\boldsymbol{v_1}}{c^2} -\rho_1 \boldsymbol{v_1} \right\rangle
+f(r,t) &\equiv \frac{\boldsymbol{\nabla}\langle P_1^2 \rangle}{2\rhobar c^2}+\frac{\partial}{\partial t}\left\langle \frac{P_1\boldsymbol{v_1}}{c^2} -\rhobar_1 \boldsymbol{v_1} \right\rangle \\
+\rhobar &= \rho_0+\rho_c(r)
 \end{align*}
-
+Where $\rho_g$ is the plasma density in the absence of compression due to the pycnoclinic effect, assumed to be constant.   Compression due to the pycnoclinic effect is represented by $\rho_c$.   Koulakis et al. (2018) observe a 1\% compression of the plasma at the center, implying that:
+\begin{align*}
+\rho_0 \gg \rho_c \,\,\,\mathrm{and}\,\,\,
+\frac{\rho_c}{\rho_0}\sim \mathrm{O}(10^{-2})
+\end{align*}
 
 \begin{align*}
 \rho\left[\frac{\partial \boldsymbol{v}}{\partial t} +\boldsymbol{v}\cdot\boldsymbol{\nabla}\boldsymbol{v}  %advection
