@@ -26,13 +26,13 @@ Where $\rho_g$ is the plasma density in the absence of compression due to the py
 
 We now make some modifications to these equations, which we highlight in blue and discuss below.  The modified momentum equation is
 \begin{equation}
-\rho\frac{ \partial \vvec }{\partial t}   =  {\color{blue} - \rho\vvec\cdot\boldsymbol{\nabla}\vvec}
-{\color{blue} \,-\, 2\rho\Omega\boldsymbol{\hat{z}}\times\vvec  - \rho\Omega^2r\boldsymbol{\hat{s}}}
-{\color{blue} + \boldsymbol{\nabla}\cdot\boldsymbol{\mathcal{D}}}
--\boldsymbol{\nabla}P  % pressure
-						        - \frac{\rho}{2}\boldsymbol{\nabla}\langle v_1^2\rangle
-							- \langle v_1^2\rangle\boldsymbol{\nabla}\rho
-							+ f(r,t),
+    \rho\frac{ \partial \vvec }{\partial t}   =  {\color{blue} - \rho\vvec\cdot\boldsymbol{\nabla}\vvec}
+    {\color{blue} \,-\, 2\rho\Omega\boldsymbol{\hat{z}}\times\vvec  + \rho\Omega^2r\boldsymbol{\hat{s}}}
+    {\color{blue} + \boldsymbol{\nabla}\cdot\boldsymbol{\mathcal{D}}}
+    -\boldsymbol{\nabla}P  % pressure
+						            - \frac{\rho}{2}\boldsymbol{\nabla}\langle v_1^2\rangle
+							    - \langle v_1^2\rangle\boldsymbol{\nabla}\rho
+							    + f(r,t),
 \end{equation}
 where $\boldsymbol{\hat{s}}$ is a unit vector in the direction of cylindrical radius, and where the density now includes a small fluctuating component such that
 \begin{equation}
@@ -68,7 +68,7 @@ As $\rho'$ and $\rho_c$ are both assumed small relative to $\rho_g$, the system 
 \begin{equation}
 \boldsymbol{\nabla}\cdot\vvec = 0.
 \end{equation}
-Note that this means {\em there is no spherically symmetric component of the radial velocity}.
+This implies that {\em there is no spherically symmetric component of radial velocity}.
 
 Next, let us subtract the spherically symmetric state, denoting spherical means by a subscript 0.   While the fluctuating density can in principle possess a spherically symmetric component, it cannot contribute to the dynamics. We thus ommit this term, and use the ' to denote deviations about the spherically symmetric state moving forward.
 
@@ -146,7 +146,7 @@ where Fr a Froud number.  In this case, it expresses the relative important of c
 \begin{equation}
 \mathrm{Fr} = \frac{2\Omega^2 L^2}{v_0^2}.
 \end{equation} 
-In this experiment, $L \approx 0.03$ m, $\Omega \approx 314 \,\,\mathrm{ s}^{-1}$, and $v_0 \approx 20 \,\,\mathrm{m}\,\,\mathrm{s}^{-1}$.  This yields Fr=0.443.  Centrifugal buoyancy is thus likely important for the dynamics at this rotation rate.
+In this experiment, $L \approx 0.015$ m, $\Omega \approx 314 \,\,\mathrm{ s}^{-1}$, and $v_0 \approx 20 \,\,\mathrm{m}\,\,\mathrm{s}^{-1}$.  This yields Fr=0.111.  Centrifugal buoyancy is non-negligible at this rotation rate.
 \clearpage
 
 %%%%%%%%%%%%%%%%%%%% END
