@@ -2,6 +2,7 @@
 \newcommand{\rhobar}{\overline{\rho}}
 \newcommand{\Pbar}{\overline{P}}
 \newcommand{\vvec}{\boldsymbol{v}}
+\newcommand{\qvec}{\boldsymbol{q}}
 \newcommand{\vvecbar}{\overline{\boldsymbol{v}}}
 \newcommand{\rhat}{\boldsymbol{\hat{r}}}
 \newcommand{\shat}{\boldsymbol{\hat{s}}}
@@ -9,8 +10,38 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % Base Equtations
+\section{Summary}
 
-\section{Base Equations}
+The nondimensional Boussinesq equations, as implemented into the Rayleigh code, with pycnoclinic and centrifugal effects included, are given by
+
+\begin{equation}
+\frac{ D \vvec }{Dt}   = 
+\,-\, \frac{2}{E}{\hat{z}}\times\vvec  
+-\frac{1}{E}\boldsymbol{\nabla}P'  % pressure
+						        + \frac{\mathrm{Ra}}{\mathrm{Pr}} T' \boldsymbol{\tilde{g}}
+							+2\frac{\mathrm{Ra}}{\mathrm{Pr}}\langle v_1^2\rangle\boldsymbol{\nabla} T'
++ \boldsymbol{\nabla}^2\vvec,
+\end{equation}
+
+\begin{equation}
+\vgrad\cdot\vvec = 0,
+\end{equation}
+
+and
+
+\begin{equation}
+\frac{DT}{Dt}=-\frac{1}{Pr}\nabla^2T + Q.
+\end{equation}
+
+The nondimensional velocity vector, temperature, and pressure are indicated by $\vvecbar$, $T$, and $P$ respectively.   The thermodynamic variables $T$ and $P$ should be intrepreted as perturbations about a mean (and essentially constant) plasma background state.  Furthermore, primed quantities denote fluctuations about the spherically-symmetric mean (of the perturbations).   The nondimensional Rayleigh, Ekman, and Prandtl numbers are indicated by $Ra$, $E$ and $Pr$ respectively.  Volumetric heating (taken to be a constant) is indicated by $Q$, and subscripts `1' denote quantities associated with the (nondimensional) resonant acoustic mode.  Angular brackets indicate temporal-averaging over several acoustic periods.   The effective gravity $\boldsymbol{\tilde{g}}$ is given by
+\begin{equation}
+\boldsymbol{\tilde{g}} = \frac{\partial}{\partial r}\langle v_1^2\rangle\rhat + \mathrm{Fr}\, r\boldsymbol\shat,
+\end{equation}
+where $Fr$ is a nondimensional Froude number expressing the relative importance of centrigufal and pycnoclinic buoyancy. The unit vector in the direction of cylindrical radius is indicated by $\boldsymbol\shat$.
+
+The remainder of this document discusses how we arrive at equations 1 and 2.
+
+\section{The Original Equations}
 The momentum equation as per Koulakis et al. (2018) is:
 
 \begin{equation}
@@ -20,12 +51,12 @@ The momentum equation as per Koulakis et al. (2018) is:
 							- \langle v_1^2\rangle\boldsymbol{\nabla}\rhobar
 							+ f(r,t)
 \end{equation}
-where $f(r,t)$ represents the spherically symmetric, time-varying component of the pycnoclinic acoustic force, and is given by
+where $f(r,t)$ represents the spherically symmetric, time-varying contributions from the acoustic field, given by
 \begin{equation}
 \label{eq:dtterms}
 f(r,t) \equiv \frac{\boldsymbol{\nabla}\langle P_1^2 \rangle}{2\rhobar c^2}+\frac{\partial}{\partial t}\left\langle \frac{P_1\boldsymbol{v_1}}{c^2} -\rho_1 \boldsymbol{v_1} \right\rangle.
 \end{equation}
-Here, $\rho$ is the plasma density, $P$ is the plasma pressure, $\vvec$ is the plasma velocity, and $c$ is the plasma sound speed.  Quantities with a subscript $1$ represent those associated with the sound wave when the system is exposed to microwave radiation pulsed in-resonance with its fundamental model.  Angular brackets denote averaging over several sound acoustic periods.  The velocity induced by the pycnoclinic effect is denoted by $\vvecbar$.  The quantities $\rhobar$ and $\Pbar$ indicate the time-averaged, spatially varying background density and pressure respectively.   They take the form
+Here, $\rho$ is the plasma density, $P$ is the plasma pressure, $\vvec$ is the plasma velocity, and $c$ is the plasma sound speed.  Quantities with a subscript $1$ represent those associated with the resonant, spherically-symmetric sound wave.  Angular brackets denote averaging over several sound acoustic periods.  The (2nd order) velocity induced by the pycnoclinic effect is denoted by $\vvecbar$.  The quantities $\rhobar$ and $\Pbar$ indicate the time-averaged, spatially varying background density and pressure respectively.   They take the form
 \begin{equation}
 \rhobar = \rho_g+\rho_c(r)
 \end{equation}
@@ -43,7 +74,7 @@ The density and Pressure in the absence of a resonant sound wave are denoted by 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Modified Equations
 
-\section{Modifications to Base Equations}
+\section{Modifications to the Original Equations}
 Before we can numerically model the dynamical effects of the pycnoclinic acoustic force, we make some modifications to these equations, highlighted in blue and discussed below.  Our modified momentum equation is
 \begin{equation}
     \rho\frac{ \partial \vvecbar }{\partial t}   =  {\color{blue} - \rho\vvecbar\cdot\boldsymbol{\nabla}\vvecbar}
@@ -73,16 +104,16 @@ and
 
 The viscous stress tensor $\boldsymbol{\mathcal{D}}$ is given by
 \begin{equation}
-\mathcal{D}_{ij} = 2\rho\nu\left[e_{ij}-\frac{1}{3}\boldsymbol{\nabla}\cdot\boldsymbol{v}\right],
+\mathcal{D}_{ij} = 2\rho\nu\left[e_{ij}-\frac{1}{3}\boldsymbol{\nabla}\cdot\vvecbar\right],
 \end{equation}
 where $\nu$ is the kinematic viscosity (assumed to be a constant) and $e_{ij}$ is the strain-rate tensor.  
 
 Briefly, we discuss the reason for including these new terms.
 \begin{enumerate}
-\item {\bf Fluctuating density and pressure.}   Equations \ref{eq:momentum} and \ref{eq:dtterms} define a system subject to forces that are radial and spherically symmetric in nature.  The plumes that erupt periodically during the experiment, however, exhibit significant deviations from spherical symmetry.  If we want to explore those dynamics, we cannot neglect small deviations in density and pressure from a spherically-symmetric, steady background state.  This approach is similar to that adopted when studying convection under Bousinesq approximation; such studies include a formally negligible fluctuating buoyancy term.  
+\item {\bf Fluctuating density and pressure.}   Equations \ref{eq:momentum} and \ref{eq:dtterms} define a system subject to forces that are radial and spherically symmetric in nature.  The plumes that erupt periodically during the experiment, however, exhibit significant deviations from spherical symmetry.  If we want to explore those dynamics, we must include small deviations in density and pressure from a spherically-symmetric, steady background state.  This approach is similar to that adopted when studying convection under Bousinesq approximation; such studies include a formally negligible fluctuating buoyancy term.  
 \item {\bf Advection. }  This term should be small, but we retain it in case the ejected plumes convey significant momentum in addition to heat. 
-\item {\bf Viscosity. }  This addition is a practical necessity if we are to model this system numerically.  Moreover, the remark by Jon that the system Ekman number is O(10$^{-5}$) suggests that viscous effects may be non-negligible in this system.
-\item {\bf Rotation. }  Koulakis et al. (2018) suggest that the amplitude of the centrifugal force resulting from the bulb's spin is about 10\% that of the pycnoclinic acoustic force.   This suggests that rotation may play some role in the observed dynamics.
+\item {\bf Viscosity. }  Some level of diffusion is a practical necessity if we are to model this system numerically.  Moreover, the remark by Jon that the system Ekman number is O(10$^{-5}$) suggests that viscous effects may still be important.
+\item {\bf Rotation. }  Koulakis et al. (2018) suggest that the amplitude of the centrifugal force resulting from the bulb's spin is about 10\% that of the pycnoclinic acoustic force.   This suggests that rotation may play a role in the observed dynamics.
 \end{enumerate}
 
 
@@ -90,7 +121,7 @@ Briefly, we discuss the reason for including these new terms.
 % Model Equations
 
 \section{The Model Equations}
-Our goal is to now construct an appropriate set nomdimensional equation set to model with Rayleigh.  We begin with the continuity equation
+Our goal is to construct a set of nondimensional equations that can be modelled with Rayleigh.  We begin with the continuity equation
 \begin{equation}
 \frac{\partial \rho}{\partial t} = -\boldsymbol{\nabla}\cdot\left(\rho\vvecbar\right),
 \end{equation}
@@ -107,7 +138,7 @@ As $\tilde{\rho}$ and $\rho_c$ are both assumed small relative to $\rho_g$, the 
 \label{eq:continuity}
 \vgrad\cdot\vvecbar = 0.
 \end{equation}
-Note that this implies that {\em there can be spherically symmetric component of radial velocity $\overline{v_r}$}.  By making the approximation \ref{eq:continuity}, we thus confine ourselves to considering a system with a steady background state has reached a steady-state pseudo-equilibrium.   We could work in the anelastic approximation if we wanted to including radial variation of the background state, but since the compression factor is around 1\%,  compressibility effects should be negligible.
+Note that this implies that {\em there can be spherically symmetric component of radial velocity $\overline{v_r}$}.  By making the approximation \ref{eq:continuity}, we thus confine ourselves to considering a system with a steady background state has reached a steady-state pseudo-equilibrium.   We could work in the anelastic approximation if we wanted to include radial variation of the background state, but since the compression factor is around 1\%,  compressibility effects should be negligible.
 
 Dividing equation \ref{eq:momentum} by $\rho$, and applying similar reasoning, we arrive at the momentum equation
 \begin{equation}
@@ -122,7 +153,7 @@ Dividing equation \ref{eq:momentum} by $\rho$, and applying similar reasoning, w
 +\frac{1}{\rho_g}f(r,t)
 \end{equation}
 
-We now subtract the mean state, which describes hydrostatic balance in the radial direction and pressure-centrifugal balance in the theta direction.   For hydrostatic balance in the radial direction, we arrive at
+We now subtract the mean state, which describes hydrostatic balance in the radial direction and pressure-centrifugal balance in the ${\hat{\theta}}$-direction.   For hydrostatic balance in the radial direction, we arrive at
 \begin{equation}
 \label{eq:hydrostatic}
 0   =  - \left[\vvecbar\cdot\boldsymbol{\nabla}\vvecbar\right]_{00}
@@ -151,14 +182,14 @@ Subtracting Equations \ref{eq:hydrostatic} and \ref{eq:twind} from the Equation 
 \end{equation}
 Here, primed quantities indicated fluctuations about the hydrostatic and centrifugal-balance background density and pressure, such that
 \begin{equation}
-\rho' = \tilde{\rho}-\tilde{\rho}_{00},
+\rho' = \tilde{\rho}(r,\theta,\phi,t)-\tilde{\rho}_{00}(r,t),
 \end{equation}
 and
 \begin{equation}
-P' = \tilde{P}-\tilde{P}_{00}-\dot{P}.
+P' = \tilde{P}(r,\theta,\phi,t)-\dot{P}(r,\theta,t)-\tilde{P}_{00}(r,t).
 \end{equation}
 
-We can further define an effective gravity vector $\boldsymbol{g}$, produced by the pycnoclinic effect centrifugal force, as
+We can further define an effective gravity vector $\boldsymbol{g}$, deriving from the acoustic pressure and centrifugal force, as
 \begin{equation}
 \boldsymbol{g} = \frac{1}{2}\frac{\partial}{\partial r}\langle v_1^2\rangle\rhat + \Omega^2 r\boldsymbol\shat  .
 \end{equation}
@@ -180,7 +211,7 @@ The final form of our momentum equation then resembles the standard form, with t
 \end{equation}
 
 \section{Nondimensional Equations and Parameters}
-We nondimensionalize this system by choosing the shell depth $L$ and viscous diffusion time $L^2/\nu$ as the characteristic length and time scales.  We adopt nondimensional temperature scale of $\Theta$ (to be determined) and a characteristic gravitational acceleration $g_0$, to be
+We nondimensionalize this system by choosing the shell depth $L$ and viscous diffusion time $L^2/\nu$ as the characteristic length and time scales.  We adopt a nondimensional temperature scale of $\Theta$ (to be determined) and a characteristic gravitational acceleration $g_0$, to be
 \begin{equation}
 g_0 = \frac{v_0^2}{2 L},
 \end{equation}
@@ -188,7 +219,7 @@ where
 \begin{equation}
 v_0^2 \equiv \mathrm{max}\left\langle v_1^2 \right\rangle.
 \end{equation}
-Finally, we choose the customary scaling of $\Omega\nu\rho_g$ for our nondimensional pressure scale.  Multiplying by $\frac{L^3}{\nu^2}$ then yields the nondimensional system
+Finally, we choose the customary scaling of $\Omega\nu\rho_g$ for the pressure scale.  Multiplying by $\frac{L^3}{\nu^2}$ then yields the nondimensional system
 \begin{equation}
 \label{eq:nondim}
 \frac{ D \vvec }{Dt}   = 
@@ -202,7 +233,7 @@ Here, $\boldsymbol{\tilde{g}}$ denotes nondimensional gravitational accelation, 
 \begin{equation}
 \boldsymbol{\tilde{g}} = \frac{\partial}{\partial r}\langle v_1^2\rangle\rhat + \mathrm{Fr}\, r\boldsymbol\shat,
 \end{equation}
-where Fr is a Froud number, expressing the relative important of centrifugal buoyancy to pycnoclinic buoyancy.  It is given by
+where Fr is a Froude number, expressing the relative important of centrifugal buoyancy to acoustic buoyancy.  It is given by
 \begin{equation}
 \mathrm{Fr} = \frac{2\Omega^2 L^2}{v_0^2}.
 \end{equation}
@@ -229,22 +260,22 @@ Finally, the Prandtl number, Pr represents the relative strengths of viscous and
 \mathrm{Pr} = \frac{\nu}{\kappa}.
 \end{equation}
 
-In order to evolve this system, we need a nondimensional continuity equation;  its form remains unchanged from that in \ref{eq:continuity} (i.e.,  no nondimensional parameters appear in the continuity equtation).  Finally, we need an equation for the internal energy of the system.  Given that energy is deposited internally via microwave absorption, we adopt the standard form of the nondimensional internal energy equation
+In order to evolve this system, we need a nondimensional continuity equation;  its form remains unchanged from that in \ref{eq:continuity} (i.e.,  no nondimensional parameters appear in the continuity equation).  Finally, we need an equation for the internal energy of the system.  Given that energy is deposited internally via microwave absorption, we include volumetric heating in the otherwise standard form of the nondimensional internal energy equation
 \begin{equation}
 \label{eq:te}
-\frac{D\tilde{T}}{Dt}=-\frac{1}{Pr}\nabla^2\tilde{T} + Q,
+\frac{D\tilde{T}}{Dt}=-\frac{1}{Pr}\nabla^2\tilde{T} + Q.
 \end{equation}
-where Q is a constant function of space and time and represents the nondimensional thermal energy input.  Note that we have not separated out the $\ell=0$,$m=0$ component of temperature here;  the mean state evolves dynamically through both conduction and advection.
+Here, Q is a constant function of space and time and represents the nondimensional thermal energy input.  Note that we have not separated out the $\ell=0$, $m=0$ component of temperature here;  the mean state evolves dynamically through both conduction and advection.
 
 Equations \ref{eq:continuity}, \ref{eq:nondim}, and \ref{eq:te}  fully describe the system we wish to evolve numerically.  They are what has now been implemented into the Rayleigh code.
 
 \subsection{Nondimensional Values}
-Now that we have formulated our nondimensional equations, it remains for us to establish appropriate values for our nondimensional parameters.
+Now that we have formulated a set ofnondimensional equations, it remains for us to establish appropriate values for the nondimensional control parameters.
 In this experiment, $L \approx 0.015$ m, $\Omega \approx 314 \,\,\mathrm{ s}^{-1}$, and $v_0 \approx 20 \,\,\mathrm{m}\,\,\mathrm{s}^{-1}$.  
 
 This immeidately yields Fr=0.111.  Centrifugal buoyancy is non-negligible at this rotation rate.
 
-Establishing the other values is more difficult without knowing the value of our diffusion coefficients.  Jon, however, relayed that from an earlier conversation with Seth, he believes that $E\approx 10^{-5}$.   This yields a ballpark value of the viscosity of $\nu\approx 7\times 10^{-7}$ m$^2$ s$^{-1}$.  From Equations \ref{eq:compress} and \ref{eq:texp} we can estimate an upper bound on the characteristic temperature $\Theta$, arriving at $\alpha\Theta\leq 0.01$.   
+Establishing the other values is more difficult without knowing the value of our diffusion coefficients.  Jon relayed that from an earlier conversation with Seth, he believes that $E\approx 10^{-5}$.   This yields a ballpark value of the viscosity of $\nu\approx 7\times 10^{-7}$ m$^2$ s$^{-1}$.  From Equations \ref{eq:compress} and \ref{eq:texp} we can estimate an upper bound on the characteristic temperature $\Theta$, arriving at $\alpha\Theta\leq 0.01$.   
 
 This yields $\frac{Ra}{Pr}\leq 9\times 10^{8}$.   
 
@@ -255,3 +286,17 @@ Depending on the value of $Pr$, this would appear prohibitively high (computatio
 
 %%%%%%%%%%%%%%%%%%%% END
 
+\section{Internal Energy Equation}
+We revisit our internal energy equation.  From the first law of thermodynamics, we have that 
+\begin{equation}
+\rho \frac{De}{Dt} = -\vgrad\cdot\qvec - p(\vgrad\cdot\vvec) + \phi + Q ,
+\end{equation}
+where $e$ is the internal energy (per unit mass) of the fluid, $\phi$ represents heating due to viscous dissipation and $Q$ represents internal heating (from microwaves in our case; assumed constant).  The heat flux vector $\qvec$ is assumed to obey Fourier's law, so that
+\begin{equation}
+\qvec = -k\vgrad T.
+\end{equation}
+We assume that the diffusion coefficient $k$ is a constant function of space and time.
+
+\begin{equation}
+\rho\mathrm{C}_p\frac{DT}{Dt}=-\vgrad\left( \cdot{k\vgrad T} \right) \frac{1}{Pr}\nabla^2T + Q.
+\end{equation}
