@@ -7,6 +7,8 @@
 \newcommand{\rhat}{\boldsymbol{\hat{r}}}
 \newcommand{\shat}{\boldsymbol{\hat{s}}}
 \newcommand{\vgrad}{\boldsymbol{\nabla}}
+\newcommand{\cv}{\mathrm{C}_v}
+\newcommand{\cp}{\mathrm{C}_p}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % Base Equtations
@@ -295,8 +297,100 @@ where $e$ is the internal energy (per unit mass) of the fluid, $\phi$ represents
 \begin{equation}
 \qvec = -k\vgrad T.
 \end{equation}
-We assume that the diffusion coefficient $k$ is a constant function of space and time.
-
+We assume that the diffusion coefficient $k$ is a constant function of space and time.  For a monatomic ideal gas, we have 
 \begin{equation}
-\rho\mathrm{C}_p\frac{DT}{Dt}=-\vgrad\left( \cdot{k\vgrad T} \right) \frac{1}{Pr}\nabla^2T + Q.
+e = \cv T,
 \end{equation}
+where $C_v$ is the specific heat capacity at constant volume of the gas.  Our internal energy equation thus provides a description for the evolution of the temperature field, namely
+\begin{equation}
+\label{eq:internal}
+\rho \cv\frac{DT}{Dt} = k\nabla^2 T - P(\vgrad\cdot\vvec) + \phi + Q. 
+\end{equation}
+Our goal is to find a description of the slow, time-averaged, second order temperature perturbations.
+
+\subsection{Ordering Assumptions}
+We follow Koulakis et al (2018; PMA ref) and write our system variables as sums of different orders.  We write each of our system variables ($\rho$, $P$, $T$, $\vvec$) as
+\begin{equation}
+f(r,\theta,\phi,t) = f_0(r) + f_1(r,t) + f_2(r,\theta,\phi,t).
+\end{equation}
+A subscript $0$ indicates quantities associated with the backgound/ambient state of the gas.  A subscript $1$ denotes variations associated with the high-amplitude sound field, and a subscript $2$ is used to indicate second order variations (i.e., the slow dynamics).  We thus assume that
+\begin{equation}
+f_0 \gg f_1 \gg f_2.
+\end{equation}
+Following Koulakis et al. (2018), we further assume that to zeroth order, the gas is $stationary$ and \textit{in pressure equilibrium} with the bulb and its surroundings.  This yields
+\begin{align}
+P_0 &= \mathrm{constant} \\ 
+\vgrad P_0 &= 0 \\
+\vvec_0 &= 0.
+\end{align}
+Finally, we use the overbar notation and brackets to indicate the time-averaged value of a second order quantity, namely
+\begin{equation}
+\overline{f} \equiv \langle f_2 \rangle,
+\end{equation}
+where the averaging is carried out over several acoustic periods (yielding a zero average for linear quantities associated with the acoustic field).
+
+Our goal is to find an expression for $\partial\overline{T}/\partial t$.
+
+\subsection{Thermodynamic Relations}
+We treat the plasma as a monatomic ideal gas, so that 
+\begin{equation}
+P=R\rho T,
+\end{equation}
+and
+\begin{equation}
+\frac{S}{\cp} = \mathrm{ln}\left(\frac{P^{1/\gamma}}{\rho} \right)+\frac{5}{2},
+\end{equation}
+where $S$ is the entropy of the gas, $\cp$ is the specific heat and constant pressure, and $\gamma=\cp/\cv$.  Differentiating with respect to $x$ (say) then yields
+\begin{equation}
+\frac{1}{P}\frac{\partial P}{\partial x} = \frac{1}{T}\frac{\partial T}{\partial x}+\frac{1}{\rho}\frac{\partial \rho}{\partial x},
+\end{equation} 
+and
+\begin{equation}
+\frac{1}{\cp}\frac{\partial S}{\partial x} = \frac{1}{\gamma P }\frac{\partial P}{\partial x} - \frac{1}{\rho}\frac{\partial \rho}{\partial x}.
+\end{equation}
+For adiabatic changes, we have that
+\begin{equation}
+\label{eq:adiabatic}
+\frac{1}{T}\frac{\partial T}{\partial x} = 
+\frac{\gamma-1}{\rho}\frac{\partial \rho}{\partial x} =
+\frac{\gamma-1}{\gamma P}\frac{\partial P}{\partial x}.
+\end{equation}
+
+\subsection{Continuity}
+The continuity equation is given by
+\begin{equation}
+\frac{\partial \rho}{\partial t} = -\rho\vgrad\cdot\vvec-\vvec\cdot\vgrad\rho
+\end{equation}
+At first order, we have
+\begin{equation}
+\label{eq:firstorder}
+\frac{\partial \rho_1}{\partial t} = - \rho_0\vgrad\cdot\vvec_1 - \vvec_1\cdot\vgrad\rho_0. 
+\end{equation}
+At second order, we have
+\begin{equation}
+\frac{\partial \rho_2}{\partial t} = - \rho_0\vgrad\cdot\vvec_2 - \vvec_2\cdot\vgrad\rho_0 - \rho_1\vgrad\cdot\vvec_1 - \vvec_1\cdot\vgrad\rho_1.
+\end{equation}
+Note that since $\vvec_1$ and $\rho_1$ are 90 degrees out of phase (in time), carrying out a multi-acoustic-period temporal average yields
+\begin{equation}
+\frac{\partial \overline{\rho}}{\partial t} = - \rho_0\vgrad\cdot\overline{\vvec} - \overline{\vvec}\cdot\vgrad\rho_0. 
+\end{equation}
+Note that my $\overline{\rho}$ is really $\rho_2$ and not $\rho_0$ as in Koulakis et al. (2018).
+
+\subsection{2nd-Order Expansion of Thermal Energy Equation}
+We now derive and equation for $\partial\overline{T}/\partial t$.  As already discussed, dynamics at 2nd order are approximately incompressible, and the Boussineq approximation is appropriate.  Under that assumption, the viscous heating term is formally negligible, and so we omit it in what follows.   Expanding Equation \ref{eq:internal} to second order, we arrive at
+\begin{equation}
+\cv\left[\rho_0\frac{\partial T_2}{\partial t} + \rho_1\frac{\partial T_1}{\partial t} + \rho_0\vvec_1\cdot\vgrad T_1 + \rho_1\vvec_1\cdot\vgrad T_0 \right] = k\nabla^2 T_2 - P_1(\vgrad\cdot\vvec_1) - P_0(\vgrad\cdot\vvec_2) + Q
+\end{equation}
+Averaging in time, we have
+\begin{equation}
+\label{eq:sorder}
+\cv\left[\rho_0\frac{\partial \overline{T}}{\partial t} + \langle\rho_1\frac{\partial T_1}{\partial t}\rangle + \rho_0\langle\vvec_1\cdot\vgrad T_1\rangle + \langle\rho_1\vvec_1\rangle\cdot\vgrad T_0 \right] = 
+k\nabla^2 \overline{T} - \langle P_1(\vgrad\cdot\vvec_1)\rangle - P_0(\vgrad\cdot\overline{\vvec}) + Q
+\end{equation}
+Equation \ref{eq:adiabatic} indicates that the themodynamic quantities associated with an adiabatic sound wave must be in-phase temporally.  By equation \ref{eq:firstorder}, we that variations in velocity associated with the wave are out-of-phase with those of the thermodynamic quantities.  Averaging in time renders the those terms in Equation \ref{eq:sorder} with $< >$ brackets negligible.  We are left with
+ \begin{equation}
+\label{eq:sorder}
+\cv\rho_0\frac{\partial \overline{T}}{\partial t}  = 
+k\nabla^2 \overline{T}  - P_0(\vgrad\cdot\overline{\vvec}) + Q
+\end{equation}
+While the second-order dynamics are essentially Bousinesq, the expansion term $P_0\vgrad\cdot\vvec$ is $not$ generally negligible with respect to the other terms in Equation \ref{eq:sorder} (see Kundu Fluid Mechanics 3rd ed. Ch 4.18).
