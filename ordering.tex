@@ -1,0 +1,38 @@
+\section{Problem Setup}
+We follow Koulakis et al (2018) and seek a solution that is comprised of a rapidly-oscillating, high-amplitude sound wave, and a low-amplitude, slowly varying flow.   The approach here differs slightly from theirs.  Rather than developing a set of equations that are second-order in the perturbations, we choose to filter our the rapid acoustic motions to obtain a higher-order set of equations (possibly greater than second-order).
+
+\subsection{Ordering Assumptions}
+
+We write each of our system variables ($\rho$, $P$, $T$, $\vvec$) as
+\begin{equation}
+f(r,\theta,\phi,t) = f_0(r) + f_1(r,t) + f_2(r,\theta,\phi,t).
+\end{equation}
+A subscript $0$ indicates quantities associated with the backgound/ambient state of the gas.  A subscript $1$ denotes variations associated with the high-amplitude sound field, and a subscript $2$ is used to indicate second order variations (i.e., the slow dynamics).  We thus assume that
+\begin{equation}
+f_0 \gg f_1 \gg f_2.
+\end{equation}
+First-order components of our state variables are assumed to vary (periodically) more rapidly than the second-order components, so that
+\begin{equation}
+\frac{\partial f_1}{\dt} \gg \frac{\partial f_2}{\dt}
+\end{equation}
+
+\subsection{Temporal Filtering}
+Our higher-order dynamics will be obtained by temporal filtering of the flow, much as in Koulakis et al.   Let $\tau$ be the acoustic period and $\overline{\tau}$ be timescale characteristic of second-order variations.   We filter by averaging in time over an intermediate timescale $n\tau$ with $n > 1$ and 
+\begin{equation}
+\overline{f} \equiv \langle f_2 \rangle,
+\end{equation}
+
+
+Following Koulakis et al. (2018), we further assume that to zeroth order, the gas is $stationary$ and \textit{in pressure equilibrium} with the bulb and its surroundings.  This yields
+\begin{align}
+P_0 &= \mathrm{constant} \\ 
+\vgrad P_0 &= 0 \\
+\vvec_0 &= 0.
+\end{align}
+Finally, we use the overbar notation and brackets to indicate the time-averaged value of a second order quantity, namely
+\begin{equation}
+\overline{f} \equiv \langle f_2 \rangle,
+\end{equation}
+where the averaging is carried out over several acoustic periods (yielding a zero average for linear quantities associated with the acoustic field).
+
+Our goal is to find an expression for $\partial\overline{T}/\partial t$.

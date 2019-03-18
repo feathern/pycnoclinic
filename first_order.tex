@@ -1,0 +1,23 @@
+\section{First Order Equations}
+We first describe the rapidly-oscillating, first-order motions associated with an adiabatic sound wave. The notes here are taken from ( and redundant with) K18, but they are useful to include in this same document.  Following K18, we first separate the first order terms from Equations \ref{eq:continuity} and \ref{eq:momentum}, giving us
+\begin{equation}
+\rho_0\frac{\dv_1}{\dt} = -\vgrad P_1,
+\end{equation}
+and
+\begin{equation}
+\frac{\drho_1}{\dt} + \rho_0\vgrad\cdot\vvec_1 + \vvec_1\vgrad\rho_0 = 0.
+\end{equation}
+
+The acoustic motions are assumed to be adiabatic and, given our earlier discussion from THERMOSECTION, they must satisify the relationship
+\begin{equation}
+\label{eq:linsound}
+\frac{\Drho}{\Dt} = \frac{1}{c^2}\frac{\DP}{\Dt},
+\end{equation}
+where $c$ is the sound speed.   Recalling that $P_0$ is assumed to be constant, at first order, Equation \ref{eq:linsound} gives
+\begin{equation}
+\frac{\drho_1}{\dt} +\vvec_1\cdot\vgrad\rho_0 = \frac{1}{c^2}\frac{\dP_1}{\dt}.
+\end{equation}
+
+\subsection{Useful Identity}
+Upon filtering in time, it will be useful to have an expression for $\vvec_1\times\left(\vgrad\times\vvec_1 \right)$.
+

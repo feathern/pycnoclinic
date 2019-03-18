@@ -1,0 +1,43 @@
+
+\section{The Fluid Equations}
+
+We begin with the fluid equations for mass conservation, momentum, and internal energy.  Terms in blue, which can easily be added back in at the end, will be initially omitted in the subsequent derivations.    Continuity is given by
+\begin{equation}
+\label{eq:continuity}
+\frac{\drho}{\dt} = -\vgrad\cdot\left(\rho\vvec\right),
+\end{equation}
+where $\rho$ is the density, and where $\vvec$ is the velocity vector.  Changes in momentum are described by the Navier Stokes equation,
+\begin{equation}
+\label{eq:momentum}
+\rho\frac{\dv}{\dt}+\vvec\cdot\vgrad\vvec = -\vgrad P + {\color{blue} \vgrad\cdot\Dscript},
+\end{equation}
+where $P$ is the pressure and $\Dscript$ is the viscous stress tensor.  It is given by
+\begin{equation}
+\mathcal{D}_{ij} = 2\rho\nu\left[e_{ij}-\frac{1}{3}\boldsymbol{\nabla}\cdot\vvecbar\right],
+\end{equation}
+where $\nu$ is the kinetmatic visocity and $e_{ij}$ i s the strain-rate tensor.   In principle, $\nu$ can vary with position, but we take it to be a constant in the analysis that follows.
+
+\begin{equation}
+\rho \frac{De}{Dt} = \rho \cv\frac{DT}{Dt} = -\vgrad\cdot\qvec - p(\vgrad\cdot\vvec) + {\color{blue} \phi + Q} ,
+\end{equation}
+where $e$ is the internal energy (per unit mass) of the fluid, $\phi$ represents heating due to viscous dissipation and $Q$ represents internal heating (from microwaves in our case; assumed constant).  The heat flux vector $\qvec$ is assumed to obey Fourier's law, so that
+\begin{equation}
+\qvec = -k\vgrad T.
+\end{equation}
+We assume that the diffusion coefficient $k$ is a constant function of space and time.  For a monatomic ideal gas, we have 
+\begin{equation}
+e = \cv T,
+\end{equation}
+where $C_v$ is the specific heat capacity at constant volume of the gas.  Our internal energy equation thus provides a description for the evolution of the temperature field, namely
+\begin{equation}
+\label{eq:internal}
+\rho \cv\frac{DT}{Dt} = k\nabla^2 T - P(\vgrad\cdot\vvec) + \phi + Q. 
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+
+
+
