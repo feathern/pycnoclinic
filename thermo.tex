@@ -1,0 +1,25 @@
+\section{Thermodynamic Relations}\label{sec:thermo}
+We treat the plasma as a monatomic ideal gas, so that 
+\begin{equation}
+P=R\rho T,
+\end{equation}
+and
+\begin{equation}
+\frac{S}{\cp} = \mathrm{ln}\left(\frac{P^{1/\gamma}}{\rho} \right)+\frac{5}{2},
+\end{equation}
+where $S$ is the entropy of the gas, $\cp$ is the specific heat and constant pressure, and $\gamma=\cp/\cv$.  Differentiating with respect to $x$ (say) then yields
+\begin{equation}
+\frac{1}{P}\frac{\partial P}{\partial x} = \frac{1}{T}\frac{\partial T}{\partial x}+\frac{1}{\rho}\frac{\partial \rho}{\partial x},
+\end{equation} 
+and
+\begin{equation}
+\frac{1}{\cp}\frac{\partial S}{\partial x} = \frac{1}{\gamma P }\frac{\partial P}{\partial x} - \frac{1}{\rho}\frac{\partial \rho}{\partial x}.
+\end{equation}
+For adiabatic changes, we have that
+\begin{equation}
+\label{eq:adiabatic}
+\frac{1}{T}\frac{\partial T}{\partial x} = 
+\frac{\gamma-1}{\rho}\frac{\partial \rho}{\partial x} =
+\frac{\gamma-1}{\gamma P}\frac{\partial P}{\partial x}.
+\end{equation}
+Among other things, this implies that temporal variations in $T$, $\rho$, and $P$ will occur in-phase for the first-order adiabatic oscillations associated with our sound wave.
